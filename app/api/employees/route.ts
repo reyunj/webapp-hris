@@ -68,15 +68,15 @@ export async function POST(request: Request) {
 
     console.log('Auth user created:', authData.user.id);
 
-    // Step 2: Create profile with employee role
-    const { error: profileError } = await supabase
+    // Step 2: Create profile with specified role
+    const { error: profileError} = await adminClient
       .from('profiles')
       // @ts-ignore - Type inference issue with placeholder Database type
       .insert({
         id: authData.user.id,
         email: body.email,
         full_name: `${body.first_name} ${body.last_name}`,
-        role: 'employee',
+        role: body.role || 'employee',
         department: body.department,
       });
 

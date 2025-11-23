@@ -29,6 +29,7 @@ export function AddEmployeeDialog({ open, onOpenChange }: AddEmployeeDialogProps
     department: '',
     position: '',
     employmentType: 'full_time',
+    role: 'employee',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -100,6 +101,7 @@ export function AddEmployeeDialog({ open, onOpenChange }: AddEmployeeDialogProps
         department: '',
         position: '',
         employmentType: 'full_time',
+        role: 'employee',
       });
 
       // Close dialog (parent will refresh the list)
@@ -131,7 +133,7 @@ export function AddEmployeeDialog({ open, onOpenChange }: AddEmployeeDialogProps
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <div className="space-y-2">
               <Label htmlFor="employeeNumber">Employee Number *</Label>
               <Input
@@ -158,6 +160,25 @@ export function AddEmployeeDialog({ open, onOpenChange }: AddEmployeeDialogProps
                 <option value="part_time">Part Time</option>
                 <option value="contract">Contract</option>
                 <option value="intern">Intern</option>
+              </select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="role">Role *</Label>
+              <select
+                id="role"
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                required
+                className="flex h-10 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 dark:border-zinc-800 dark:bg-zinc-950"
+              >
+                <option value="employee">Employee</option>
+                <option value="supervisor">Supervisor</option>
+                <option value="manager">Manager</option>
+                <option value="hr_manager">HR Manager</option>
+                <option value="admin">Admin</option>
+                <option value="super_admin">Super Admin</option>
               </select>
             </div>
           </div>
