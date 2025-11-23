@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+import { createClient, createAdminClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -43,17 +43,68 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const supabase = await createClient();
+    const adminClient = await createAdminClient();
     const body = await request.json();
+
+    console.log('Attempting to insert employee:', body);
+
+    // Step 1: Create auth user with employee email (requires admin client)
+    const temporaryPassword = `Temp${Math.random().toString(36).slice(-8)}!`;
+    
+    const { data: authData, error: authError } = await adminClient.auth.admin.createUser({
+      email: body.email,
+      password: temporaryPassword,
+      email_confirm: true, // Auto-confirm email
+      user_metadata: {
+        first_name: body.first_name,
+        last_name: body.last_name,
+      }
+    });
+
+    if (authError) {
+      console.error('Auth user creation error:', authError);
+      throw new Error(`Failed to create auth user: ${authError.message}`);
+    }
+
+    console.log('Auth user created:', authData.user.id);
+
+    // Step 2: Create profile with employee role
+    const { error: profileError } = await supabase
+      .from('profiles')
+      // @ts-ignore - Type inference issue with placeholder Database type
+      .insert({
+        id: authData.user.id,
+        email: body.email,
+        full_name: `${body.first_name} ${body.last_name}`,
+        role: 'employee',
+        department: body.department,
+      });
+
+    if (profileError) {
+      console.error('Profile creation error:', profileError);
+      // Don't throw - continue with employee creation
+    }
+
+    // Step 3: Create employee record linked to auth user
+    const employeeData = {
+      ...body,
+      user_id: authData.user.id, // Link to auth user
+    };
 
     const { data, error } = await supabase
       .from('employees')
-      .insert(body)
+      .insert(employeeData)
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) {
+      console.error('Supabase insert error:', error);
+      throw error;
+    }
 
-    // Create audit log
+    console.log('Employee created successfully:', data);
+
+    // Step 4: Create audit log
     const { data: { user } } = await supabase.auth.getUser();
     if (user && data) {
       // @ts-ignore - Type inference issue with placeholder Database type
@@ -66,10 +117,27 @@ export async function POST(request: Request) {
       });
     }
 
-    return NextResponse.json({ data }, { status: 201 });
+    // Return success with temporary password
+    return NextResponse.json({ 
+      data,
+      auth: {
+        email: body.email,
+        temporary_password: temporaryPassword,
+        message: 'Employee can login with this temporary password. They should change it on first login.'
+      }
+    }, { status: 201 });
   } catch (error) {
+    console.error('POST /api/employees error:', error);
+    
+    // For Supabase errors, return more details
+    const errorObj = error as any;
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'An error occurred' },
+      { 
+        error: errorObj?.message || (error instanceof Error ? error.message : 'An error occurred'),
+        code: errorObj?.code || null,
+        details: errorObj?.details || null,
+        hint: errorObj?.hint || null,
+      },
       { status: 500 }
     );
   }

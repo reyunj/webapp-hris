@@ -1,3 +1,6 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import { DashboardLayout } from '@/components/layout/dashboard-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,17 +14,43 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Plus, Search, Filter, Users } from 'lucide-react';
+import { AddEmployeeDialog } from '@/components/employees/add-employee-dialog';
+
+interface Employee {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  department: string;
+  position: string;
+  status: string;
+  hire_date: string;
+}
 
 export default function EmployeesPage() {
-  const employees: Array<{
-    id: string;
-    name: string;
-    email: string;
-    department: string;
-    position: string;
-    status: string;
-    hireDate: string;
-  }> = [];
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchEmployees = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/employees');
+      const result = await response.json();
+      
+      if (response.ok && result.data) {
+        setEmployees(result.data);
+      }
+    } catch (error) {
+      console.error('Error fetching employees:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, 'success' | 'warning' | 'secondary'> = {
@@ -42,7 +71,7 @@ export default function EmployeesPage() {
               Manage your organization's employee directory
             </p>
           </div>
-          <Button>
+          <Button onClick={() => setIsAddDialogOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
             Add Employee
           </Button>
@@ -64,7 +93,14 @@ export default function EmployeesPage() {
         </div>
 
         <div className="rounded-lg border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
-          {employees.length > 0 ? (
+          {loading ? (
+            <div className="flex items-center justify-center py-16">
+              <div className="text-center">
+                <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
+                <p className="mt-2 text-sm text-zinc-500">Loading employees...</p>
+              </div>
+            </div>
+          ) : employees.length > 0 ? (
             <Table>
               <TableHeader>
                 <TableRow>
@@ -80,12 +116,14 @@ export default function EmployeesPage() {
               <TableBody>
                 {employees.map((employee) => (
                   <TableRow key={employee.id}>
-                    <TableCell className="font-medium">{employee.name}</TableCell>
+                    <TableCell className="font-medium">
+                      {employee.first_name} {employee.last_name}
+                    </TableCell>
                     <TableCell>{employee.email}</TableCell>
                     <TableCell>{employee.department}</TableCell>
                     <TableCell>{employee.position}</TableCell>
                     <TableCell>{getStatusBadge(employee.status)}</TableCell>
-                    <TableCell>{new Date(employee.hireDate).toLocaleDateString()}</TableCell>
+                    <TableCell>{new Date(employee.hire_date).toLocaleDateString()}</TableCell>
                     <TableCell className="text-right">
                       <Button variant="ghost" size="sm">
                         View
@@ -102,7 +140,7 @@ export default function EmployeesPage() {
               <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-4">
                 Get started by adding your first employee
               </p>
-              <Button>
+              <Button onClick={() => setIsAddDialogOpen(true)}>
                 <Plus className="mr-2 h-4 w-4" />
                 Add Employee
               </Button>
@@ -110,6 +148,17 @@ export default function EmployeesPage() {
           )}
         </div>
       </div>
+
+      <AddEmployeeDialog 
+        open={isAddDialogOpen} 
+        onOpenChange={(open) => {
+          setIsAddDialogOpen(open);
+          if (!open) {
+            // Refresh employees list when dialog closes
+            fetchEmployees();
+          }
+        }} 
+      />
     </DashboardLayout>
   );
 }

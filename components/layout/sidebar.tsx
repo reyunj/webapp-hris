@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 import {
   LayoutDashboard,
   Users,
@@ -37,10 +38,12 @@ export function Sidebar() {
       setIsLoggingOut(true);
       const supabase = createClient();
       await supabase.auth.signOut();
+      toast.success('Signed out successfully');
       router.push('/login');
       router.refresh();
     } catch (error) {
       console.error('Error signing out:', error);
+      toast.error('Failed to sign out. Please try again.');
     } finally {
       setIsLoggingOut(false);
     }
