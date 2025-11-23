@@ -72,19 +72,21 @@ export function AddEmployeeDialog({ open, onOpenChange }: AddEmployeeDialogProps
 
       const result = await response.json();
 
-      // Show success toast with login credentials
+      // Show success toast
       if (result.auth) {
         toast.success(
-          `Employee added! Login credentials:\nEmail: ${result.auth.email}\nPassword: ${result.auth.temporary_password}`,
-          { duration: 10000 }
+          `Employee added successfully! Login credentials have been logged to the console.`,
+          { duration: 5000 }
         );
         
-        // Also log to console for easy copying
-        console.log('=== NEW EMPLOYEE LOGIN CREDENTIALS ===');
-        console.log('Email:', result.auth.email);
-        console.log('Temporary Password:', result.auth.temporary_password);
-        console.log('Note: Employee should change password on first login');
-        console.log('=====================================');
+        // Log credentials to console for admin to copy
+        console.log('\n' + '='.repeat(50));
+        console.log('🔐 NEW EMPLOYEE LOGIN CREDENTIALS');
+        console.log('='.repeat(50));
+        console.log('📧 Email:', result.auth.email);
+        console.log('🔑 Temporary Password:', result.auth.temporary_password);
+        console.log('⚠️  Note: Employee should change password on first login');
+        console.log('='.repeat(50) + '\n');
       } else {
         toast.success('Employee added successfully!');
       }
