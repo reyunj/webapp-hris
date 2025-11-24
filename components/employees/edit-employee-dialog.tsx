@@ -32,6 +32,8 @@ interface EditEmployeeDialogProps {
 export function EditEmployeeDialog({ open, onOpenChange, employee }: EditEmployeeDialogProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [departments, setDepartments] = useState<Array<{ id: string; name: string }>>([]);
+  const [loadingDepartments, setLoadingDepartments] = useState(true);
   const [formData, setFormData] = useState({
     employeeNumber: '',
     firstName: '',
@@ -45,6 +47,27 @@ export function EditEmployeeDialog({ open, onOpenChange, employee }: EditEmploye
     employmentType: 'full_time',
     status: 'active',
   });
+
+  // Fetch departments on mount
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        const response = await fetch('/api/departments');
+        const result = await response.json();
+        if (response.ok && result.data) {
+          setDepartments(result.data);
+        }
+      } catch (error) {
+        console.error('Error fetching departments:', error);
+      } finally {
+        setLoadingDepartments(false);
+      }
+    };
+
+    if (open) {
+      fetchDepartments();
+    }
+  }, [open]);
 
   // Populate form when employee changes
   useEffect(() => {
@@ -258,13 +281,24 @@ export function EditEmployeeDialog({ open, onOpenChange, employee }: EditEmploye
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="department">Department *</Label>
-              <Input
+              <select
                 id="department"
                 name="department"
                 value={formData.department}
                 onChange={handleChange}
                 required
-              />
+                disabled={loadingDepartments}
+                className="flex h-10 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950"
+              >
+                <option value="">
+                  {loadingDepartments ? 'Loading...' : 'Select Department'}
+                </option>
+                {departments.map((dept) => (
+                  <option key={dept.id} value={dept.name}>
+                    {dept.name}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="space-y-2">

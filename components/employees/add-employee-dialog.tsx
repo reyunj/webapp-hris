@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
@@ -18,6 +18,8 @@ export function AddEmployeeDialog({ open, onOpenChange }: AddEmployeeDialogProps
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [departments, setDepartments] = useState<Array<{ id: string; name: string }>>([]);
+  const [loadingDepartments, setLoadingDepartments] = useState(true);
   const [formData, setFormData] = useState({
     employeeNumber: '',
     firstName: '',
@@ -31,6 +33,27 @@ export function AddEmployeeDialog({ open, onOpenChange }: AddEmployeeDialogProps
     employmentType: 'full_time',
     role: 'employee',
   });
+
+  // Fetch departments on mount
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        const response = await fetch('/api/departments');
+        const result = await response.json();
+        if (response.ok && result.data) {
+          setDepartments(result.data);
+        }
+      } catch (error) {
+        console.error('Error fetching departments:', error);
+      } finally {
+        setLoadingDepartments(false);
+      }
+    };
+
+    if (open) {
+      fetchDepartments();
+    }
+  }, [open]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -271,14 +294,24 @@ export function AddEmployeeDialog({ open, onOpenChange }: AddEmployeeDialogProps
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="department">Department *</Label>
-              <Input
+              <select
                 id="department"
                 name="department"
                 value={formData.department}
                 onChange={handleChange}
                 required
-                placeholder="Engineering"
-              />
+                disabled={loadingDepartments}
+                className="flex h-10 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950"
+              >
+                <option value="">
+                  {loadingDepartments ? 'Loading...' : 'Select Department'}
+                </option>
+                {departments.map((dept) => (
+                  <option key={dept.id} value={dept.name}>
+                    {dept.name}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="space-y-2">

@@ -62,6 +62,12 @@ const navigationItems = [
     roles: ['super_admin', 'admin', 'hr_manager', 'manager']
   },
   { 
+    name: 'Departments', 
+    href: '/departments', 
+    icon: Settings,
+    roles: ['super_admin']
+  },
+  { 
     name: 'Settings', 
     href: '/settings', 
     icon: Settings,

@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { DashboardLayout } from '@/components/layout/dashboard-layout';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -11,8 +14,10 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Plus, Calendar } from 'lucide-react';
+import { FileLeaveDialog } from '@/components/leave/file-leave-dialog';
 
 export default function LeavePage() {
+  const [isFileLeaveOpen, setIsFileLeaveOpen] = useState(false);
   const leaveBalance = [
     { type: 'Vacation', total: 0, used: 0, remaining: 0 },
     { type: 'Sick Leave', total: 0, used: 0, remaining: 0 },
@@ -49,7 +54,7 @@ export default function LeavePage() {
               Track and manage employee leave requests
             </p>
           </div>
-          <Button>
+          <Button onClick={() => setIsFileLeaveOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
             Request Leave
           </Button>
@@ -138,6 +143,11 @@ export default function LeavePage() {
           )}
         </div>
       </div>
+
+      <FileLeaveDialog
+        open={isFileLeaveOpen}
+        onOpenChange={setIsFileLeaveOpen}
+      />
     </DashboardLayout>
   );
 }

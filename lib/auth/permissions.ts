@@ -40,6 +40,10 @@ export const routePermissions: RoutePermission[] = [
     path: '/settings',
     allowedRoles: ['super_admin', 'admin']
   },
+  {
+    path: '/departments',
+    allowedRoles: ['super_admin', 'admin', 'hr_manager', 'manager', 'supervisor', 'employee']
+  },
 ];
 
 // Check if a user's role has access to a specific path
