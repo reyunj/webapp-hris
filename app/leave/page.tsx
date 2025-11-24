@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/table';
 import { Plus, Calendar } from 'lucide-react';
 import { FileLeaveDialog } from '@/components/leave/file-leave-dialog';
+import { ViewLeaveDialog } from '@/components/leave/view-leave-dialog';
 import { createClient } from '@/lib/supabase/client';
 import toast from 'react-hot-toast';
 
@@ -35,6 +36,8 @@ interface LeaveRequest {
 
 export default function LeavePage() {
   const [isFileLeaveOpen, setIsFileLeaveOpen] = useState(false);
+  const [isViewLeaveOpen, setIsViewLeaveOpen] = useState(false);
+  const [selectedLeaveRequest, setSelectedLeaveRequest] = useState<LeaveRequest | null>(null);
   const [leaveRequests, setLeaveRequests] = useState<LeaveRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [userRole, setUserRole] = useState<string | null>(null);
@@ -139,49 +142,14 @@ export default function LeavePage() {
     fetchLeaveRequests();
   }, []);
 
-  const handleApprove = async (requestId: string) => {
-    try {
-      const response = await fetch(`/api/leave/requests/${requestId}/approve`, {
-        method: 'POST',
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to approve leave request');
-      }
-
-      toast.success('Leave request approved successfully!');
-      fetchLeaveRequests();
-      fetchLeaveBalances();
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'An error occurred';
-      toast.error(errorMessage);
-    }
+  const handleViewLeave = (request: LeaveRequest) => {
+    setSelectedLeaveRequest(request);
+    setIsViewLeaveOpen(true);
   };
 
-  const handleReject = async (requestId: string) => {
-    const reason = prompt('Please provide a reason for rejection (optional):');
-    
-    try {
-      const response = await fetch(`/api/leave/requests/${requestId}/reject`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ reason }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to reject leave request');
-      }
-
-      toast.success('Leave request rejected');
-      fetchLeaveRequests();
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'An error occurred';
-      toast.error(errorMessage);
-    }
+  const handleActionComplete = () => {
+    fetchLeaveRequests();
+    fetchLeaveBalances();
   };
 
   const getStatusBadge = (status: string) => {
@@ -256,9 +224,7 @@ export default function LeavePage() {
                   <TableHead>End Date</TableHead>
                   <TableHead>Days</TableHead>
                   <TableHead>Status</TableHead>
-                  {(userRole === 'super_admin' || userRole === 'admin' || userRole === 'hr_manager' || userRole === 'manager') && (
-                    <TableHead className="text-right">Actions</TableHead>
-                  )}
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -274,33 +240,15 @@ export default function LeavePage() {
                     <TableCell>{new Date(request.end_date).toLocaleDateString()}</TableCell>
                     <TableCell>{request.days_requested}</TableCell>
                     <TableCell>{getStatusBadge(request.status)}</TableCell>
-                    {(userRole === 'super_admin' || userRole === 'admin' || userRole === 'hr_manager' || userRole === 'manager') && (
-                      <TableCell className="text-right">
-                        {request.status === 'pending' && (
-                          <div className="flex justify-end gap-2">
-                            <Button 
-                              variant="outline" 
-                              size="sm"
-                              onClick={() => handleApprove(request.id)}
-                            >
-                              Approve
-                            </Button>
-                            <Button 
-                              variant="destructive" 
-                              size="sm"
-                              onClick={() => handleReject(request.id)}
-                            >
-                              Reject
-                            </Button>
-                          </div>
-                        )}
-                        {request.status !== 'pending' && (
-                          <Button variant="ghost" size="sm">
-                            View
-                          </Button>
-                        )}
-                      </TableCell>
-                    )}
+                    <TableCell className="text-right">
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={() => handleViewLeave(request)}
+                      >
+                        View
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -326,6 +274,14 @@ export default function LeavePage() {
             fetchLeaveRequests();
           }
         }}
+      />
+
+      <ViewLeaveDialog
+        open={isViewLeaveOpen}
+        onOpenChange={setIsViewLeaveOpen}
+        leaveRequest={selectedLeaveRequest}
+        userRole={userRole}
+        onActionComplete={handleActionComplete}
       />
     </DashboardLayout>
   );

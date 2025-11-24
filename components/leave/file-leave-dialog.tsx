@@ -131,10 +131,7 @@ export function FileLeaveDialog({ open, onOpenChange }: FileLeaveDialogProps) {
             >
               <option value="vacation">Vacation Leave</option>
               <option value="sick">Sick Leave</option>
-              <option value="personal">Personal Leave</option>
-              <option value="maternity">Maternity Leave</option>
-              <option value="paternity">Paternity Leave</option>
-              <option value="unpaid">Unpaid Leave</option>
+              <option value="emergency">Emergency Leave</option>
             </select>
           </div>
 
