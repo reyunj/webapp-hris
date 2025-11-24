@@ -5,7 +5,6 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "HRIS System - Human Resource Information System",
   description: "Modern HRIS platform for employee management, payroll, leave tracking, and performance reviews",
-  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
