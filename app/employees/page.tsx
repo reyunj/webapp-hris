@@ -15,20 +15,35 @@ import {
 } from '@/components/ui/table';
 import { Plus, Search, Filter, Users } from 'lucide-react';
 import { AddEmployeeDialog } from '@/components/employees/add-employee-dialog';
+import { ViewEmployeeDialog } from '@/components/employees/view-employee-dialog';
+import { EditEmployeeDialog } from '@/components/employees/edit-employee-dialog';
 
 interface Employee {
   id: string;
+  user_id?: string;
+  employee_number: string;
   first_name: string;
   last_name: string;
   email: string;
+  phone?: string;
+  date_of_birth?: string;
+  hire_date: string;
   department: string;
   position: string;
+  manager_id?: string;
+  employment_type: string;
   status: string;
-  hire_date: string;
+  address?: any;
+  emergency_contact?: any;
+  created_at: string;
+  updated_at: string;
 }
 
 export default function EmployeesPage() {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -125,7 +140,14 @@ export default function EmployeesPage() {
                     <TableCell>{getStatusBadge(employee.status)}</TableCell>
                     <TableCell>{new Date(employee.hire_date).toLocaleDateString()}</TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="sm">
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={() => {
+                          setSelectedEmployee(employee);
+                          setIsViewDialogOpen(true);
+                        }}
+                      >
                         View
                       </Button>
                     </TableCell>
@@ -158,6 +180,28 @@ export default function EmployeesPage() {
             fetchEmployees();
           }
         }} 
+      />
+
+      <ViewEmployeeDialog
+        open={isViewDialogOpen}
+        onOpenChange={setIsViewDialogOpen}
+        employee={selectedEmployee}
+        onEdit={(employee) => {
+          setSelectedEmployee(employee);
+          setIsEditDialogOpen(true);
+        }}
+      />
+
+      <EditEmployeeDialog
+        open={isEditDialogOpen}
+        onOpenChange={(open) => {
+          setIsEditDialogOpen(open);
+          if (!open) {
+            // Refresh employees list when dialog closes
+            fetchEmployees();
+          }
+        }}
+        employee={selectedEmployee}
       />
     </DashboardLayout>
   );
