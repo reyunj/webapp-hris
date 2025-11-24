@@ -138,11 +138,11 @@ export function ViewEmployeeDialog({ open, onOpenChange, employee, onEdit }: Vie
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="text-sm font-medium text-zinc-500">Employee ID</label>
-                <p className="text-sm font-mono text-xs">{employee.id}</p>
+                <p className="text-xs font-mono">{employee.id}</p>
               </div>
               <div>
                 <label className="text-sm font-medium text-zinc-500">User ID</label>
-                <p className="text-sm font-mono text-xs">{employee.user_id || 'Not linked'}</p>
+                <p className="text-xs font-mono">{employee.user_id || 'Not linked'}</p>
               </div>
               <div>
                 <label className="text-sm font-medium text-zinc-500">Created At</label>
