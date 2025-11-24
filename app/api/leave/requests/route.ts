@@ -11,7 +11,7 @@ export async function GET(request: Request) {
 
     let query = supabase
       .from('leave_requests')
-      .select('*, employees(*)')
+      .select('*, employees!leave_requests_employee_id_fkey(first_name, last_name)')
       .order('created_at', { ascending: false });
 
     if (status) {
@@ -24,10 +24,14 @@ export async function GET(request: Request) {
 
     const { data, error } = await query;
 
-    if (error) throw error;
+    if (error) {
+      console.error('Leave requests fetch error:', error);
+      throw error;
+    }
 
     return NextResponse.json({ data });
   } catch (error) {
+    console.error('Leave requests API error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'An error occurred' },
       { status: 500 }
@@ -45,16 +49,21 @@ export async function POST(request: Request) {
     const endDate = new Date(body.end_date);
     const daysRequested = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 
+    // @ts-ignore - Supabase type inference issue
     const { data, error } = await supabase
       .from('leave_requests')
       .insert({ ...body, days_requested: daysRequested })
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) {
+      console.error('Leave request insert error:', error);
+      throw error;
+    }
 
     return NextResponse.json({ data }, { status: 201 });
   } catch (error) {
+    console.error('Leave request POST error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'An error occurred' },
       { status: 500 }
