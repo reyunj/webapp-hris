@@ -45,7 +45,7 @@ export default function LeavePage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Leave Management</h1>
-            <p className="text-zinc-500 dark:text-zinc-400">
+            <p className="text-zinc-500 ">
               Track and manage employee leave requests
             </p>
           </div>
@@ -66,12 +66,12 @@ export default function LeavePage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{balance.remaining} days</div>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="text-xs text-zinc-500 ">
                   {balance.used} used of {balance.total} total
                 </p>
-                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
+                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-zinc-200 ">
                   <div
-                    className="h-full bg-zinc-900 dark:bg-zinc-50"
+                    className="h-full bg-zinc-900 "
                     style={{ width: `${(balance.used / balance.total) * 100}%` }}
                   />
                 </div>
@@ -80,7 +80,7 @@ export default function LeavePage() {
           ))}
         </div>
 
-        <div className="rounded-lg border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+        <div className="rounded-lg border border-zinc-200 bg-white  ">
           <div className="p-6">
             <h2 className="text-lg font-semibold">Leave Requests</h2>
           </div>
@@ -129,9 +129,9 @@ export default function LeavePage() {
             </Table>
           ) : (
             <div className="flex flex-col items-center justify-center py-16 text-center">
-              <Calendar className="h-16 w-16 text-zinc-300 dark:text-zinc-700 mb-4" />
+              <Calendar className="h-16 w-16 text-zinc-300  mb-4" />
               <h3 className="text-lg font-semibold mb-2">No leave requests</h3>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-4">
+              <p className="text-sm text-zinc-500  mb-4">
                 Leave requests will appear here when submitted
               </p>
             </div>
@@ -141,3 +141,4 @@ export default function LeavePage() {
     </DashboardLayout>
   );
 }
+

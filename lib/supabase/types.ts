@@ -8,3 +8,4 @@ export type TypedSupabaseClient = SupabaseClient<Database>;
 export function getTypedClient(client: SupabaseClient<Database>) {
   return client as any as TypedSupabaseClient;
 }
+

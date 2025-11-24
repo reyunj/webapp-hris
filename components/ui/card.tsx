@@ -6,7 +6,7 @@ const Card = React.forwardRef<
 >(({ className = '', ...props }, ref) => (
   <div
     ref={ref}
-    className={`rounded-lg border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-950 ${className}`}
+    className={`rounded-lg border border-zinc-200 bg-white shadow-sm   ${className}`}
     {...props}
   />
 ));
@@ -42,7 +42,7 @@ const CardDescription = React.forwardRef<
 >(({ className = '', ...props }, ref) => (
   <p
     ref={ref}
-    className={`text-sm text-zinc-500 dark:text-zinc-400 ${className}`}
+    className={`text-sm text-zinc-500  ${className}`}
     {...props}
   />
 ));
@@ -69,3 +69,4 @@ const CardFooter = React.forwardRef<
 CardFooter.displayName = 'CardFooter';
 
 export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent };
+

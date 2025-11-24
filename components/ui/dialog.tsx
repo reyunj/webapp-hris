@@ -26,7 +26,7 @@ export function Dialog({ open, onOpenChange, children }: DialogProps) {
 
 export function DialogContent({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`bg-white dark:bg-zinc-950 rounded-lg shadow-lg p-6 ${className}`}>
+    <div className={`bg-white  rounded-lg shadow-lg p-6 ${className}`}>
       {children}
     </div>
   );
@@ -50,8 +50,9 @@ export function DialogTitle({ children, className = '' }: { children: React.Reac
 
 export function DialogDescription({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <p className={`text-sm text-zinc-500 dark:text-zinc-400 ${className}`}>
+    <p className={`text-sm text-zinc-500  ${className}`}>
       {children}
     </p>
   );
 }
+

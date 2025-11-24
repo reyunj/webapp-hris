@@ -60,7 +60,7 @@ export default function PerformancePage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Performance Management</h1>
-            <p className="text-zinc-500 dark:text-zinc-400">
+            <p className="text-zinc-500 ">
               Track employee performance, reviews, and goals
             </p>
           </div>
@@ -90,7 +90,7 @@ export default function PerformancePage() {
         </div>
 
         <div className="grid gap-4 lg:grid-cols-2">
-          <div className="rounded-lg border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+          <div className="rounded-lg border border-zinc-200 bg-white  ">
             <div className="p-6">
               <h2 className="text-lg font-semibold">Performance Reviews</h2>
             </div>
@@ -128,7 +128,7 @@ export default function PerformancePage() {
             </Table>
           </div>
 
-          <div className="rounded-lg border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+          <div className="rounded-lg border border-zinc-200 bg-white  ">
             <div className="flex items-center justify-between p-6">
               <h2 className="text-lg font-semibold">Goals & OKRs</h2>
               <Button size="sm">
@@ -142,7 +142,7 @@ export default function PerformancePage() {
                   <div className="flex items-start justify-between">
                     <div>
                       <h3 className="font-medium">{goal.title}</h3>
-                      <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                      <p className="text-sm text-zinc-500 ">
                         {goal.employee} • {goal.category}
                       </p>
                     </div>
@@ -153,9 +153,9 @@ export default function PerformancePage() {
                       <span>Progress</span>
                       <span className="font-medium">{goal.progress}%</span>
                     </div>
-                    <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
+                    <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-200 ">
                       <div
-                        className="h-full bg-zinc-900 dark:bg-zinc-50"
+                        className="h-full bg-zinc-900 "
                         style={{ width: `${goal.progress}%` }}
                       />
                     </div>
@@ -173,3 +173,4 @@ export default function PerformancePage() {
     </DashboardLayout>
   );
 }
+

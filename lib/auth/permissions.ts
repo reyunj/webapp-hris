@@ -74,3 +74,4 @@ export function getDefaultRoute(role: UserRole): string {
       return '/dashboard';
   }
 }
+

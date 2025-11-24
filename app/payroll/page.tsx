@@ -47,7 +47,7 @@ export default function PayrollPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Payroll</h1>
-            <p className="text-zinc-500 dark:text-zinc-400">
+            <p className="text-zinc-500 ">
               Manage employee compensation and payroll processing
             </p>
           </div>
@@ -82,7 +82,7 @@ export default function PayrollPage() {
           ))}
         </div>
 
-        <div className="rounded-lg border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+        <div className="rounded-lg border border-zinc-200 bg-white  ">
           <div className="p-6">
             <h2 className="text-lg font-semibold">Payroll Records</h2>
           </div>
@@ -123,9 +123,9 @@ export default function PayrollPage() {
             </Table>
           ) : (
             <div className="flex flex-col items-center justify-center py-16 text-center">
-              <DollarSign className="h-16 w-16 text-zinc-300 dark:text-zinc-700 mb-4" />
+              <DollarSign className="h-16 w-16 text-zinc-300  mb-4" />
               <h3 className="text-lg font-semibold mb-2">No payroll records</h3>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-4">
+              <p className="text-sm text-zinc-500  mb-4">
                 Payroll records will appear here after processing
               </p>
             </div>
@@ -135,3 +135,4 @@ export default function PayrollPage() {
     </DashboardLayout>
   );
 }
+

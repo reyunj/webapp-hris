@@ -67,7 +67,7 @@ export default function EmployeesPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Employees</h1>
-            <p className="text-zinc-500 dark:text-zinc-400">
+            <p className="text-zinc-500 ">
               Manage your organization's employee directory
             </p>
           </div>
@@ -92,7 +92,7 @@ export default function EmployeesPage() {
           </Button>
         </div>
 
-        <div className="rounded-lg border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+        <div className="rounded-lg border border-zinc-200">
           {loading ? (
             <div className="flex items-center justify-center py-16">
               <div className="text-center">
@@ -135,9 +135,9 @@ export default function EmployeesPage() {
             </Table>
           ) : (
             <div className="flex flex-col items-center justify-center py-16 text-center">
-              <Users className="h-16 w-16 text-zinc-300 dark:text-zinc-700 mb-4" />
+              <Users className="h-16 w-16 text-zinc-300  mb-4" />
               <h3 className="text-lg font-semibold mb-2">No employees yet</h3>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-4">
+              <p className="text-sm text-zinc-500  mb-4">
                 Get started by adding your first employee
               </p>
               <Button onClick={() => setIsAddDialogOpen(true)}>
@@ -162,3 +162,4 @@ export default function EmployeesPage() {
     </DashboardLayout>
   );
 }
+

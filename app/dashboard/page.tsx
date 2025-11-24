@@ -39,7 +39,7 @@ export default function DashboardPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-          <p className="text-zinc-500 dark:text-zinc-400">
+          <p className="text-zinc-500 ">
             Welcome back! Here's an overview of your HR metrics.
           </p>
         </div>
@@ -70,11 +70,11 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="flex flex-col items-center justify-center py-8 text-center">
-                <Users className="h-12 w-12 text-zinc-300 dark:text-zinc-700 mb-3" />
-                <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                <Users className="h-12 w-12 text-zinc-300  mb-3" />
+                <p className="text-sm text-zinc-500 ">
                   No recent activities yet
                 </p>
-                <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-1">
+                <p className="text-xs text-zinc-400  mt-1">
                   Activities will appear here as users interact with the system
                 </p>
               </div>
@@ -87,11 +87,11 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="flex flex-col items-center justify-center py-8 text-center">
-                <Calendar className="h-12 w-12 text-zinc-300 dark:text-zinc-700 mb-3" />
-                <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                <Calendar className="h-12 w-12 text-zinc-300  mb-3" />
+                <p className="text-sm text-zinc-500 ">
                   No upcoming events
                 </p>
-                <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-1">
+                <p className="text-xs text-zinc-400  mt-1">
                   Schedule events to see them here
                 </p>
               </div>
@@ -102,3 +102,4 @@ export default function DashboardPage() {
     </DashboardLayout>
   );
 }
+

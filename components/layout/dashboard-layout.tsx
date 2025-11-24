@@ -9,7 +9,7 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <ProtectedRoute>
-      <div className="flex h-screen bg-zinc-50 dark:bg-zinc-950">
+      <div className="flex h-screen">
         <Sidebar />
         <div className="flex flex-1 flex-col overflow-hidden">
           <Header />
@@ -21,3 +21,4 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     </ProtectedRoute>
   );
 }
+

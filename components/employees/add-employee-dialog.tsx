@@ -156,7 +156,7 @@ export function AddEmployeeDialog({ open, onOpenChange }: AddEmployeeDialogProps
                 value={formData.employmentType}
                 onChange={handleChange}
                 required
-                className="flex h-10 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 dark:border-zinc-800 dark:bg-zinc-950"
+                className="flex h-10 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950  "
               >
                 <option value="full_time">Full Time</option>
                 <option value="part_time">Part Time</option>
@@ -173,7 +173,7 @@ export function AddEmployeeDialog({ open, onOpenChange }: AddEmployeeDialogProps
                 value={formData.role}
                 onChange={handleChange}
                 required
-                className="flex h-10 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 dark:border-zinc-800 dark:bg-zinc-950"
+                className="flex h-10 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950  "
               >
                 <option value="employee">Employee</option>
                 <option value="supervisor">Supervisor</option>
@@ -295,7 +295,7 @@ export function AddEmployeeDialog({ open, onOpenChange }: AddEmployeeDialogProps
           </div>
 
           {error && (
-            <div className="rounded-md bg-red-50 p-3 text-sm text-red-800 dark:bg-red-900/20 dark:text-red-400">
+            <div className="rounded-md bg-red-50 p-3 text-sm text-red-800  ">
               {error}
             </div>
           )}
@@ -318,3 +318,4 @@ export function AddEmployeeDialog({ open, onOpenChange }: AddEmployeeDialogProps
     </Dialog>
   );
 }
+

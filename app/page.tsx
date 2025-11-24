@@ -27,8 +27,8 @@ export default function Home() {
   ];
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-50 dark:bg-black">
-      <header className="border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+    <div className="flex min-h-screen flex-col bg-zinc-50 ">
+      <header className="border-b border-zinc-200 bg-white  ">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <h1 className="text-xl font-bold">HRIS System</h1>
           <Link href="/login">
@@ -42,9 +42,9 @@ export default function Home() {
           <h2 className="text-4xl font-bold tracking-tight sm:text-6xl">
             Modern HR Management
             <br />
-            <span className="text-zinc-600 dark:text-zinc-400">Made Simple</span>
+            <span className="text-zinc-600 ">Made Simple</span>
           </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-600 ">
             Streamline your HR operations with our comprehensive HRIS platform. Manage employees,
             process payroll, track performance, and more—all in one place.
           </p>
@@ -63,17 +63,17 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="border-t border-zinc-200 bg-white py-24 dark:border-zinc-800 dark:bg-zinc-950">
+        <section className="border-t border-zinc-200 bg-white py-24  ">
           <div className="container mx-auto px-4">
             <h3 className="mb-12 text-center text-3xl font-bold">Key Features</h3>
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
               {features.map((feature) => (
                 <div key={feature.title} className="text-center">
-                  <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800">
+                  <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-100 ">
                     <feature.icon className="h-6 w-6" />
                   </div>
                   <h4 className="mb-2 text-lg font-semibold">{feature.title}</h4>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                  <p className="text-sm text-zinc-600 ">
                     {feature.description}
                   </p>
                 </div>
@@ -83,11 +83,12 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-zinc-200 bg-white py-8 dark:border-zinc-800 dark:bg-zinc-950">
-        <div className="container mx-auto px-4 text-center text-sm text-zinc-600 dark:text-zinc-400">
+      <footer className="border-t border-zinc-200 bg-white py-8  ">
+        <div className="container mx-auto px-4 text-center text-sm text-zinc-600 ">
           © {new Date().getFullYear()} HRIS System. All rights reserved.
         </div>
       </footer>
     </div>
   );
 }
+
